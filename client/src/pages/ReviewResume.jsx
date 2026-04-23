@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Sparkles, LoaderCircle, FileText, Eraser } from 'lucide-react'
-import axios from 'axios';
 import { useAuth } from '@clerk/clerk-react';
 import ReactMarkdown from 'react-markdown';
+import api from '../lib/api';
 
 
 const ReviewResume = () => {
@@ -24,7 +24,7 @@ const ReviewResume = () => {
         const formData = new FormData();
         formData.append('pdf', input);
 
-        const { data } = await axios.post('http://localhost:3000/api/ai/review-resume', formData, {
+        const { data } = await api.post('/api/ai/review-resume', formData, {
           headers: { 
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'

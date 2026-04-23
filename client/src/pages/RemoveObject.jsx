@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Sparkles, Scissors, LoaderCircle } from 'lucide-react'
-import axios from 'axios';
 import { useAuth } from '@clerk/clerk-react';
+import api from '../lib/api';
 
 const RemoveObject = () => {
 
@@ -24,7 +24,7 @@ const RemoveObject = () => {
         formData.append('image', input);
         formData.append('prompt', object);
 
-        const { data } = await axios.post('http://localhost:3000/api/ai/remove-object', formData, {
+        const { data } = await api.post('/api/ai/remove-object', formData, {
           headers: { 
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'

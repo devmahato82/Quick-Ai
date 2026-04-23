@@ -1,8 +1,8 @@
 import { Edit, Hash, Sparkles, LoaderCircle } from 'lucide-react'
 import React, { useState } from 'react'
-import axios from 'axios'
 import { useAuth } from '@clerk/clerk-react'
 import ReactMarkdown from 'react-markdown'
+import api from '../lib/api'
 
 const WriteArticle = () => {
 
@@ -27,7 +27,7 @@ const WriteArticle = () => {
       setResultData(null);
       const token = await getToken();
 
-      const { data } = await axios.post('http://localhost:3000/api/ai/generate-article', 
+      const { data } = await api.post('/api/ai/generate-article', 
         { prompt: input, length: selectedLength.length },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Sparkles, Eraser, LoaderCircle } from 'lucide-react'
-import axios from 'axios';
 import { useAuth } from '@clerk/clerk-react';
+import api from '../lib/api';
 
 const RemoveBackground = () => {
 
@@ -22,7 +22,7 @@ const RemoveBackground = () => {
         const formData = new FormData();
         formData.append('image', input);
 
-        const { data } = await axios.post('http://localhost:3000/api/ai/remove-background', formData, {
+        const { data } = await api.post('/api/ai/remove-background', formData, {
           headers: { 
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'

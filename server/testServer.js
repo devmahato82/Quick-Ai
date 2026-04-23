@@ -8,7 +8,29 @@ import pinoHttp from 'pino-http';
 import logger from './utils/logger.js';
 
 const app = express();
-app.use(cors());
+const defaultAllowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'https://quick-ai-rose-three.vercel.app',
+];
+
+const allowedOrigins = new Set(
+    (process.env.CORS_ALLOWED_ORIGINS || defaultAllowedOrigins.join(','))
+        .split(',')
+        .map((origin) => origin.trim())
+        .filter(Boolean)
+);
+
+app.use(cors({
+    origin(origin, callback) {
+        if (!origin || allowedOrigins.has(origin)) {
+            callback(null, true);
+            return;
+        }
+
+        callback(new Error('Not allowed by CORS'));
+    }
+}));
 app.use(express.json());
 
 // Apply structured request logging payload natively

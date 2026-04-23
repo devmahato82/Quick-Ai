@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Sparkles, Image, LoaderCircle } from 'lucide-react'
-import axios from 'axios';
 import { useAuth } from '@clerk/clerk-react';
+import api from '../lib/api';
 
 const looksLikeBase64Image = (value) => (
   typeof value === 'string'
@@ -83,7 +83,7 @@ const GenerateImages = () => {
         setImageError('');
         const token = await getToken();
 
-        const { data } = await axios.post('http://localhost:3000/api/ai/generate-image', 
+        const { data } = await api.post('/api/ai/generate-image', 
           {
             prompt: input,
             style: selectedStyle,

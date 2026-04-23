@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Sparkles, Edit, Hash, LoaderCircle } from 'lucide-react'
-import axios from 'axios'
 import { useAuth } from '@clerk/clerk-react'
 import ReactMarkdown from 'react-markdown'
+import api from '../lib/api'
 
 const BlogTitles = () => {
 
@@ -23,7 +23,7 @@ const BlogTitles = () => {
         setResultData(null);
         const token = await getToken();
 
-        const { data } = await axios.post('http://localhost:3000/api/ai/generate-blog-title', 
+        const { data } = await api.post('/api/ai/generate-blog-title', 
           { prompt: `Topic: ${input}, Category: ${selectedCategory}` },
           { headers: { Authorization: `Bearer ${token}` } }
         );

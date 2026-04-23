@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Gem, Sparkles } from 'lucide-react'
 import { Protect, useAuth } from '@clerk/clerk-react'
-import axios from 'axios'
 import CreationItem from '../components/CreationItem'
+import api from '../lib/api'
 
 const Dashboard = () => {
 
@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   const getDashboardData = async () =>{
     const token = await getToken()
-    const { data } = await axios.get('http://localhost:3000/api/ai/creations?limit=10', {
+    const { data } = await api.get('/api/ai/creations?limit=10', {
       headers: { Authorization: `Bearer ${token}` }
     })
 

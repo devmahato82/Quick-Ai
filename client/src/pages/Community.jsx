@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth, useUser} from '@clerk/clerk-react'
-import axios from 'axios'
 import { Heart } from 'lucide-react'
+import api from '../lib/api'
 
 const Community = () => {
 
@@ -12,7 +12,7 @@ const Community = () => {
 
   const fetchCreations = async () =>{
     const token = await getToken()
-    const { data } = await axios.get('http://localhost:3000/api/ai/community-creations?limit=30', {
+    const { data } = await api.get('/api/ai/community-creations?limit=30', {
       headers: { Authorization: `Bearer ${token}` }
     })
 
@@ -33,7 +33,7 @@ const Community = () => {
     try {
       setUpdatingId(creationId)
       const token = await getToken()
-      const { data } = await axios.post(`http://localhost:3000/api/ai/community-creations/${creationId}/like`, {}, {
+      const { data } = await api.post(`/api/ai/community-creations/${creationId}/like`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       })
 
