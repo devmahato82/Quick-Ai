@@ -2,18 +2,29 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-*{
+* {
   font-family: "Outfit", sans-serif;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  overflow-x: hidden;
 }
 
 @theme {
   --color-primary: #5044E5;
 }
 
-.reset-tw, .reset-tw *{
+.reset-tw,
+.reset-tw * {
   all: revert !important;
 }
 
-.cl-drawerRoot{
-  z-index:10;
+.cl-drawerRoot {
+  z-index: 10;
 }

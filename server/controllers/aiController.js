@@ -23,6 +23,7 @@ const openai = new OpenAI({
 
 const BLOG_TITLE_MODEL = process.env.GEMINI_BLOG_TITLE_MODEL || "gemini-2.5-flash";
 const BLOG_TITLE_PROMPT_VERSION = "v2";
+const RESUME_REVIEW_PROMPT_VERSION = "v2";
 
 const fetchImageAsDataUrl = async (url) => {
     const response = await fetch(url);
@@ -486,6 +487,7 @@ export const reviewResume = async (req, res, next) => {
         const { userId } = await req.auth();
         const plan = req.plan;
         const free_usage = req.free_usage;
+        const currentYear = new Date().getFullYear();
 
         if (plan !== 'premium' && free_usage >= 10) {
             return res.json({ success: false, message: "Limit reached. Upgrade to continue.", data: null });
@@ -506,7 +508,20 @@ export const reviewResume = async (req, res, next) => {
             });
         }
 
-        const AI_PROMPT = `Please review this resume and provide feedback. Give a short summary, list strengths, list weaknesses, and suggest improvements. Resume Content:\\n\\n${resumeText}`;
+        const AI_PROMPT = `You are an expert resume reviewer.
+Assume the current year is ${currentYear}.
+Use ${currentYear} when judging recency, timelines, gaps, or how up-to-date the resume feels.
+Do not assume the current year is 2024 unless the resume itself explicitly says so.
+
+Please review this resume and provide feedback with:
+1. A short summary
+2. Strengths
+3. Weaknesses
+4. Suggested improvements
+
+Resume Content:
+
+${resumeText}`;
 
         const fetchFunc = async () => {
             const performGeminiResume = async () => {
@@ -520,7 +535,11 @@ export const reviewResume = async (req, res, next) => {
             return await withRetry('gemini-resume', performGeminiResume, [], 3);
         };
 
-        const rawContent = await executeWithCacheAndDeduplication('reviewResume', { text: resumeText }, fetchFunc);
+        const rawContent = await executeWithCacheAndDeduplication(
+            'reviewResume',
+            { text: resumeText, currentYear, version: RESUME_REVIEW_PROMPT_VERSION },
+            fetchFunc
+        );
         const content = normalizeAIResponse(rawContent);
 
         if (!content) {

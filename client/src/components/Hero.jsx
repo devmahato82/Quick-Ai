@@ -1,30 +1,34 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import { assets } from '../assets/assets';
+import { useNavigate } from 'react-router-dom'
+import { assets } from '../assets/assets'
 
 const Hero = () => {
-
-    const navigate = useNavigate()
-
+  const navigate = useNavigate()
 
   return (
-    <div className='px-4 sm:px-20 xl:px-32 relative inline-flex flex-col w-full justify-center bg-[url(/gradientBackground.png)] bg-cover bg-no-repeat min-h-screen'>
+    <div className='relative flex min-h-dvh w-full flex-col justify-center bg-[url(/gradientBackground.png)] bg-cover bg-no-repeat px-4 pb-16 pt-28 sm:px-6 lg:px-20 xl:px-32'>
+      <div className='mb-6 text-center'>
+        <h1 className='mx-auto text-3xl leading-[1.2] font-semibold sm:text-5xl md:text-6xl 2xl:text-7xl'>
+          Create amazing content <br /> with <span className='text-primary'>AI tools</span>
+        </h1>
+        <p className='mx-auto mt-4 max-w-xs text-sm text-gray-600 sm:max-w-lg sm:text-base'>
+          Transform your content creation with our suite of premium AI tools. Write arcticles, generate images, and enhance your workflow.
+        </p>
+      </div>
 
-        <div className='text-center mb-6'>
-            <h1 className='text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl font-semibold mx-auto leading-[1.2]'>Create amazing content <br /> with <span className='text-primary'>AI tools</span> </h1>
-            <p className='mt-4 max-w-xs sm:max-w-lg 2xlmax-w-xl m-auto max-sm:text-xs text-gray-600'>Transform your content creation with our suite of premium AI tools. 
-                Write arcticles, generate images, and enhance your workflow.</p>
-        </div>
+      <div className='flex flex-col justify-center gap-4 text-sm sm:flex-row'>
+        <button onClick={() => navigate('/ai')} className='w-full rounded-lg bg-primary px-6 py-3 text-white transition active:scale-95 sm:w-auto sm:px-10'>
+          Start creating now
+        </button>
+        <button className='w-full rounded-lg border border-gray-300 bg-white px-6 py-3 transition active:scale-95 sm:w-auto sm:px-10'>
+          Watch demo
+        </button>
+      </div>
 
-        <div className=' flex flex-wrap justify-center gap-4 text-sm max-sm:text-xs'>
-            <button onClick={() => navigate('/ai')} className='bg-primary text-white px-10 py-3 rounded-lg hover:scale-102 active:scale-95 transition cursor-pointer'>Start creating now</button>
-            <button className='bg-white px-10 py-3 rounded-lg border border-gray-300 hover:scale-102 active-scale-95 transition cursor-pointer'>Watch demo</button>
-        </div>
-
-        <div className='flex items-center gap-4 mt-8 mx-auto text-gray-600'>
-            <img src={assets.user_group} alt="" className='h-8'/> Trusted by 10k+ people
-        </div>
-
+      <div className='mx-auto mt-8 flex flex-wrap items-center justify-center gap-3 text-center text-sm text-gray-600 sm:text-base'>
+        <img src={assets.user_group} alt="" className='h-8' />
+        Trusted by 10k+ people
+      </div>
     </div>
   )
 }
